@@ -16,9 +16,18 @@ phases:
       - ls
       - cp target/helloworld-1.1.jar HelloWorld.jar
       - docker build -t hello-world .
+      
   post_build:
     commands:
-      - echo Build completed on `date`
+     - eval `aws ecr get-login --region eu-west-2 --no-include-email`
+     - IMAGE_TAG="test-1.0.0"
+     - REPOSITORY_URI=913536217213.dkr.ecr.eu-west-2.amazonaws.com/docker-hello-world
+     - docker tag hello-world:latest 913536217213.dkr.ecr.eu-west-2.amazonaws.com/docker-hello-world:$IMAGE_TAG
+     - docker push 913536217213.dkr.ecr.eu-west-2.amazonaws.com/docker-hello-world:$IMAGE_TAG
+     - echo $CODEBUILD_SRC_DIR
+     - cd $CODEBUILD_SRC_DIR/target
+     - printf '[{"name":"hello-world","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 artifacts:
   files:
-    - target/hello-world.jar
+  - target/helloworld-1.1.jar
+  - target/imagedefinitions.json
