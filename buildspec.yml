@@ -28,7 +28,9 @@ phases:
      - echo $CODEBUILD_SRC_DIR
      - cd $CODEBUILD_SRC_DIR/target
      - printf '[{"name":"hello-world","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+     - ls target
+     - ls
 artifacts:
   files:
   - target/helloworld-1.1.jar
-  - target/imagedefinitions.json
+  - imagedefinitions.json
