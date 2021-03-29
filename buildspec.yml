@@ -19,7 +19,8 @@ phases:
       
   post_build:
     commands:
-     - eval `aws ecr get-login --region eu-west-2 --no-include-email`
+     - eval `aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 913536217213.dkr.ecr.eu-west-2.amazonaws.com`
+# -eval `aws ecr get-login --region eu-west-2 --no-include-email`
      - IMAGE_TAG="test-1.0.0"
      - REPOSITORY_URI=913536217213.dkr.ecr.eu-west-2.amazonaws.com/docker-hello-world
      - docker tag hello-world:latest 913536217213.dkr.ecr.eu-west-2.amazonaws.com/docker-hello-world:$IMAGE_TAG
