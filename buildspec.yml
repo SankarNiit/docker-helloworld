@@ -6,7 +6,7 @@ phases:
       java: corretto11
   pre_build:
     commands:
-      - echo Nothing to do in the pre_build phase...
+      - echo Running login to ECR...
       - aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 913536217213.dkr.ecr.eu-west-2.amazonaws.com
   build:
     commands:
@@ -20,6 +20,7 @@ phases:
       
   post_build:
     commands:
+     - aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 913536217213.dkr.ecr.eu-west-2.amazonaws.com
      - IMAGE_TAG="test-1.0.0"
      - REPOSITORY_URI=913536217213.dkr.ecr.eu-west-2.amazonaws.com/docker-hello-world
      - docker tag hello-world:latest 913536217213.dkr.ecr.eu-west-2.amazonaws.com/docker-hello-world:$IMAGE_TAG
