@@ -31,5 +31,5 @@ phases:
      - ls
 artifacts:
   files:
-  - helloworld-1.1.jar
-  - imagedefinitions.json
+  - $CODEBUILD_SRC_DIR/target/helloworld-1.1.jar
+  - $CODEBUILD_SRC_DIR/target/imagedefinitions.json
