@@ -10,7 +10,9 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - mvn install
+      - mvn clean install
+      - cp target/helloworld-1.1.jar HelloWorld.jar
+      - docker build -t hello-world .
   post_build:
     commands:
       - echo Build completed on `date`
