@@ -3,7 +3,7 @@ env:
     secrets-manager:
       LOGIN: SONAR_CLOUD:SONAR_TOKEN
       HOST: SONAR_CLOUD:SONAR_HOST
-      Organization: SONAR_CLOUD:SONAR_OR
+      Organization: SONAR_CLOUD:SONAR_ORG
       Project: SONAR_CLOUD:SONAR_PROJ
 phases:
   install:
