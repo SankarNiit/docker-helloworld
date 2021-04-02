@@ -27,9 +27,9 @@ phases:
       - mvn test
       - mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
       - echo "-- $SONAR_TOKEN --- $SONAR_PROJ --- $SONAR_ORG ---- SONAR_HOST - $HOST, Token - $LOGIN, ProjectKey - $Project, Org - $Organization"
-      #- mvn -e sonar:sonar -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project -Dsonar.organization=$Organization
+      - mvn -e sonar:sonar -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project -Dsonar.organization=$Organization
       - echo "sonar:sonar -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=$SONAR_HOST -Dsonar.projectKey=$SONAR_PROJ -Dsonar.organization=$SONAR_ORG"
-      - mvn -X -e sonar:sonar -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=$SONAR_HOST -Dsonar.projectKey=$SONAR_PROJ -Dsonar.organization=$SONAR_ORG
+      #- mvn -X -e sonar:sonar -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=$SONAR_HOST -Dsonar.projectKey=$SONAR_PROJ -Dsonar.organization=$SONAR_ORG
       - sleep 5
       - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project >result.json
       - cat result.json
