@@ -1,10 +1,10 @@
 version: 0.2
 env:
   secrets-manager:
-    LOGIN: SONAR_CLOUD:SONAR_TOKEN
-    HOST: SONAR_CLOUD:SONAR_HOST
-    Organization: SONAR_CLOUD:SONAR_ORG
-    Project: SONAR_CLOUD:SONAR_PROJ
+    LOGIN: "SONAR_CLOUD:SONAR_TOKEN"
+    HOST: "SONAR_CLOUD:SONAR_HOST"
+    Organization: "SONAR_CLOUD:SONAR_ORG"
+    Project: "SONAR_CLOUD:SONAR_PROJ"
 phases:
   install:
     runtime-versions:
@@ -25,7 +25,7 @@ phases:
     commands:
       - echo Build started on `date`
       - mvn test
-      - echo "SONAR_HOST - $HOST, Token - $LOGIN, ProjectKey - $Project, Org - $Organization"
+      - echo "-- $SONAR_TOKEN ---- SONAR_HOST - $HOST, Token - $LOGIN, ProjectKey - $Project, Org - $Organization"
       - mvn -e sonar:sonar -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project -Dsonar.organization=$Organization
       - sleep 5
       - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project >result.json
