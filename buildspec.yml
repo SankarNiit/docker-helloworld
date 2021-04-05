@@ -65,8 +65,8 @@ phases:
      - printf '[{"name":"hello-world","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
      - ls
      - cat imagedefinitions.json
-     - curl -H "X-JFrog-Art-Api:$ARTIFACTORY_API_KEY" -T *.json "https://awspoc27.jfrog.io/artifactory/artifactory-build-info/"
-     - curl -H "X-JFrog-Art-Api:$ARTIFACTORY_API_KEY" -T *.jar "https://awspoc27.jfrog.io/artifactory/artifactory-build-info/"
+     - curl -H "X-JFrog-Art-Api:$ARTIFACTORY_API_KEY" -T *.json "https://awspoc27.jfrog.io/artifactory/artifactory-build-info/build-info.json"
+     - curl -H "X-JFrog-Art-Api:$ARTIFACTORY_API_KEY" -T *.jar "https://awspoc27.jfrog.io/artifactory/example-repo-local/"
 artifacts:
   files:
   - target/helloworld-1.1.jar
