@@ -5,10 +5,18 @@ env:
     HOST: "SONAR_CLOUD:SONAR_HOST"
     Organization: "SONAR_CLOUD:SONAR_ORG"
     Project: "SONAR_CLOUD:SONAR_PROJ"
+    ARTIFACTORY_USER: "ARTIFACTORY_CLOUD:JFROG_ART_USER"
+    ARTIFACTORY_URL: "ARTIFACTORY_CLOUD:JFROG_ART_UTL"
+    ARTIFACTORY_MVN_REPO: "ARTIFACTORY_CLOUD:JFROG_MVN_REPO"
+    ARTIFACTORY_API_KEY: "ARTIFACTORY_CLOUD:JFROG_API_KEY"
+    ARTIFACTORY_PASSWORD: "ARTIFACTORY_CLOUD:JFROG_ART_PASS"
 phases:
   install:
     runtime-versions:
       java: corretto11
+    commands:
+      - wget https://dl.bintray.com/jfrog/jfrog-cli-go/1.12.1/jfrog-cli-linux-amd64/jfrog
+      - chmod +x jfrog
   pre_build:
     commands:
       - apt-get update
@@ -21,6 +29,9 @@ phases:
       - export PATH=$PATH:/sonar-scanner-3.3.0.1492-linux/bin/
       - echo Running login to ECR...
       - aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 913536217213.dkr.ecr.eu-west-2.amazonaws.com
+      - echo Entering pre_build phase...
+      - ./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_API_KEY
+      - sed -i -e 's|ARTIFACTORY_USER|${ARTIFACTORY_USER}|g' settings.xml && sed -i -e 's|ARTIFACTORY_PASSWORD|${ARTIFACTORY_API_KEY}|g' settings.xml && sed -i -e 's|ARTIFACTORY_MVN_REPO|${ARTIFACTORY_MVN_REPO}|g' settings.xml
   build:
     commands:
       - echo Build started on `date`
@@ -54,6 +65,8 @@ phases:
      - printf '[{"name":"hello-world","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
      - ls
      - cat imagedefinitions.json
+     - curl -H "X-JFrog-Art-Api:$ARTIFACTORY_API_KEY" -T *.json "https://awspoc27.jfrog.io/artifactory/artifactory-build-info/"
+     - curl -H "X-JFrog-Art-Api:$ARTIFACTORY_API_KEY" -T *.jar "https://awspoc27.jfrog.io/artifactory/artifactory-build-info/"
 artifacts:
   files:
   - target/helloworld-1.1.jar
